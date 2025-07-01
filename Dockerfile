@@ -1,5 +1,10 @@
-FROM maven:3.8.6-openjdk-11
+FROM python:3.9-slim
 
 WORKDIR /app
+COPY app.py .
 
-CMD ["bash"]
+RUN pip install flask
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
