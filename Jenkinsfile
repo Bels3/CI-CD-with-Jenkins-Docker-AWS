@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Bels3/CI-CD-with-Jenkins-Docker-AWS.git'
+                git branch: 'main', url: 'https://github.com/Bels3/CI-CD-with-Jenkins-Docker-AWS.git'
             }
         }
 
