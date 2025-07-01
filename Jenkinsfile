@@ -5,12 +5,14 @@ pipeline {
         DOCKER_IMAGE = 'dbell799/ci-cd-pipeline-using-aws-jenkins-docker'
     }
 
-    stages {
+    // Declare the dockerImage variable globally
+    def dockerImage
 
+    stages {
         stage('Build Docker Image') {
             steps {
                 script {
-                  def dockerImage = docker.build("${DOCKER_IMAGE}")
+                    dockerImage = docker.build("${DOCKER_IMAGE}")
                 }
             }
         }
@@ -26,4 +28,3 @@ pipeline {
         }
     }
 }
-
