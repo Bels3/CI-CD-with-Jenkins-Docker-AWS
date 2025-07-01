@@ -9,7 +9,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build and tag Docker image
                     docker.build(env.DOCKER_IMAGE)
                 }
             }
@@ -21,6 +20,18 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'e89ddf3a-33d3-42f1-ad37-76a90e39a6ba') {
                         docker.image(env.DOCKER_IMAGE).push()
                     }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    sh '''
+                    docker rm -f my-flask-app || true
+                    docker pull ${DOCKER_IMAGE}:latest
+                    docker run -d --name my-flask-app -p 5000:5000 ${DOCKER_IMAGE}:latest
+                    '''
                 }
             }
         }
