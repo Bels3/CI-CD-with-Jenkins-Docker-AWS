@@ -5,14 +5,12 @@ pipeline {
         DOCKER_IMAGE = 'dbell799/ci-cd-pipeline-using-aws-jenkins-docker'
     }
 
-    // Declare the dockerImage variable globally
-    def dockerImage
-
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${DOCKER_IMAGE}")
+                    // Build and tag Docker image
+                    docker.build(env.DOCKER_IMAGE)
                 }
             }
         }
@@ -21,7 +19,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'e89ddf3a-33d3-42f1-ad37-76a90e39a6ba') {
-                        dockerImage.push()
+                        docker.image(env.DOCKER_IMAGE).push()
                     }
                 }
             }
